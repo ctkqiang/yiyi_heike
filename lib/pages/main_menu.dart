@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:yiyi_heike/controller/menu_controller.dart';
 import 'package:yiyi_heike/pages/ddos.dart';
-import '';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
@@ -16,20 +15,38 @@ class _MainMenuState extends State<MainMenu> {
   final logger = Logger();
   final _menu = HeikeMenuController.to;
 
-  void onNavigate(int? index) {
-    switch (index) {
-      case 0:
-        Get.to(const DDoSPage(key: Key("<DDOS>")));
-        logger.i("导航到阻斷服務攻擊页面");
-        break;
-      case 1:
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        leading: const SizedBox(),
+        actions: [
+          InkWell(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 5,
+                right: 10,
+                top: 1,
+                bottom: 1,
+              ),
+              child: Row(
+                children: const [
+                  Icon(Icons.lock, color: Colors.green, size: 20),
+                  Text(
+                    "AES-SM4",
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            onTap: _menu.explainSM4AES,
+          ),
+        ],
+      ),
       backgroundColor: Colors.black,
       body: WillPopScope(
         onWillPop: () async => false,
@@ -55,12 +72,15 @@ class _MainMenuState extends State<MainMenu> {
                       Icon(menu.icon!, color: Colors.red, size: 50),
                       Text(
                         menu.label!,
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
                       ),
                     ],
                   ),
                 ),
-                onTap: () => onNavigate(menu.id),
+                onTap: () => _menu.onNavigate(menu.id),
               );
             },
           ),
